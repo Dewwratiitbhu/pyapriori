@@ -94,7 +94,19 @@ def parser(w_size,file_name,d_wind):   # Used to get information from file
 #############################################################################
 #                        Dynamic Search Window Function                     #
 #############################################################################
-
+#input:  item- un till the loop needs to run in the token list, as we found out the item we will stop at 
+#that point and it will be a window for the streaming data on which we are working.
+#token_list- list of tokens (elements available in the patterns)
+#Output: for next iteration in main function it gives new window which is just next to previous
+#ending element(previous “item”)
+#Method: first it counts total number of elements till the “item” in that window. first loop is for that.
+#then go through the list again when ever we get that item . if in last we don’t have ending         
+#token for the “item” . there are many methods which could help us in finding the size of the    
+#window we should work with. logarithmically growing window size, fixed number of        
+#elements and many more. It depends on for what purpose you are using this algorithm like   
+# an example of streaming data is Data which are generated every second at Super markets      
+#like Walmart , then we can’t take logarithmically window size but for general uses like a       
+#small clinic in a small town could make logarithmic choice for better pattern finding. 
 def dyn_search_window(item,token_list):
     transaction_list = []
     parse_list = set([])
@@ -177,7 +189,12 @@ def frequency_qualifier(item_list, minsup): # functions removes items
 ############################################################################
 #                           Generate Function                              #
 ############################################################################
-
+#input: frequent item list carried forward from last iteration , List, minimum support, hash tree
+#Output: Candidate transaction Set 
+#Method: generates  a new set for next iteration. It merges the item sets and make new list. As there  
+#  are two major steps there, Self Joining and pruning . this function takes care of both, first       
+#they make new elements by self joining two elements from previous list and then check it   
+# either it will get included in new list or not by comparing with its frequency with minimum     support.
 def generate(f_item_list,L_1, minsup,ht): # used to find the candidate
                                        # transaction set Ck
 
